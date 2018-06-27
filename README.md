@@ -6,7 +6,7 @@ It's cover most of needed possibilities, but programmers are free to use API dir
 
 For details please contact your dedicated Olza Logistic manager.
 
-##Features
+## Features
 
 - client provides standard interface for preparing requests, including entities for each API call
 - client automatically checks and validate returned results
@@ -14,7 +14,7 @@ For details please contact your dedicated Olza Logistic manager.
 - difrerent types of exceptions are thrown/returned, based on event occured
 - included support for Composer
 
-##Structure of client
+## Structure of client
 
 Client is documented using DocBlock, so feel free to read description of the functions/classes provided. You can find following types of files in within client structure:
 
@@ -24,7 +24,7 @@ Client is documented using DocBlock, so feel free to read description of the fun
 * **src/entities/response** - classes, which held returned results. Client sort all response types into provided classes. Whole response is accessible by *ApiBatchResponse* object
 * **exception** - all exception types by API event. Read class description to get meaning of exception.
 
-##Basig usage example
+## Basig usage example
 
 More verbose usage examples are in within **examples** folder.
 Contact your dedicated Olza Logistic manager go gain access to API and URLs.
@@ -102,7 +102,7 @@ You can then later update Client using composer:
 composer.phar update
  ```
 
-##Important notice
+## Important notice
 
 It's recommended to lock client minor version in composer to avoid unintended client interface changes, which can happen in between the minor versions.
 
