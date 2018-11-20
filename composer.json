@@ -1,7 +1,7 @@
 {
     "name": "develart-projects/olza-logisctic-api-client",
     "description": "Client for Olza Logistic system API",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "keywords": ["Olza", "OlzaLogistic", "API client", "Olza API client", "DevelArt"],
     "license": "MIT",
     "autoload": {

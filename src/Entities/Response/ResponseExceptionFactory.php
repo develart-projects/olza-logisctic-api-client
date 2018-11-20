@@ -23,8 +23,9 @@ class ResponseExceptionFactory
             throw new Exception\ResponseException('Missing response code.');
         }
         
-        if( empty($errorData['apiCustomRef']) ) {
-            throw new Exception\ResponseException('Missing apiCustomRef.');
+        // at least one back reference type must be set
+        if( empty($errorData['apiCustomRef']) === TRUE && empty($errorData['shipmentId']) === TRUE) {
+            throw new Exception\ResponseException('Missing back reference (apiCustomRef or shipmentId) in error response.');
         }
         
         switch($errorData['responseCode']) {
