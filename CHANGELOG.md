@@ -7,3 +7,7 @@
 ## 0.9.1 
 
 * Exception factory fix (back reference pre-check)
+
+## 1.0.0 
+
+* external tracking numbers added to getStatuses call
