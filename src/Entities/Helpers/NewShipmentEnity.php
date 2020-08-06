@@ -189,6 +189,12 @@ class NewShipmentEnity extends AbstractHelper
     protected $shipmentPickupDate;
     
     /**
+     *
+     * @var string 
+     */
+    protected $marketPlaceId;
+    
+    /**
      * 
      * @return string
      */
@@ -769,7 +775,26 @@ class NewShipmentEnity extends AbstractHelper
         
         return $this;
     }
-            
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getMarketPlaceId() {
+        return $this->marketPlaceId;
+    }
+
+    /**
+     * 
+     * @param string $marketPlaceId
+     * @return $this
+     */
+    public function setMarketPlaceId($marketPlaceId) {
+        $this->marketPlaceId = $marketPlaceId;
+        return $this;
+    }
+
+                
     /**
      * Convert object to formated array
      * @return array
@@ -826,6 +851,7 @@ class NewShipmentEnity extends AbstractHelper
         $out['specific'] = Array(
             'pick' => $this->getPick(),
             'shipmentPickupDate' => $this->getShipmentPickupDate(),
+            'marketPlaceId' => $this->getMarketPlaceId(),
         );
         
         return $this->arrayFilterRecursive($out);
