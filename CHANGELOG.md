@@ -11,3 +11,11 @@
 ## 1.0.0 
 
 * external tracking numbers added to getStatuses call
+
+## 1.1.0 
+
+* added marketPlaceId parameter
+
+## 1.1.1
+
+* changelog update and auto-push-flow test
