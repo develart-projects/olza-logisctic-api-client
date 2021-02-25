@@ -195,6 +195,18 @@ class NewShipmentEnity extends AbstractHelper
     protected $marketPlaceId;
     
     /**
+     *
+     * @var string 
+     */
+    protected $senderCounty;
+    
+    /**
+     *
+     * @var string 
+     */
+    protected $recipientCounty;
+    
+    /**
      * 
      * @return string
      */
@@ -793,7 +805,42 @@ class NewShipmentEnity extends AbstractHelper
         $this->marketPlaceId = $marketPlaceId;
         return $this;
     }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getSenderCounty() {
+        return $this->senderCounty;
+    }
 
+    /**
+     * 
+     * @return string
+     */
+    public function getRecipientCounty() {
+        return $this->recipientCounty;
+    }
+
+    /**
+     * 
+     * @param string $senderCounty
+     * @return $this
+     */
+    public function setSenderCounty($senderCounty) {
+        $this->senderCounty = $senderCounty;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param string $recipientCounty
+     * @return $this
+     */
+    public function setRecipientCounty($recipientCounty) {
+        $this->recipientCounty = $recipientCounty;
+        return $this;
+    }
                 
     /**
      * Convert object to formated array
@@ -821,6 +868,7 @@ class NewShipmentEnity extends AbstractHelper
             'senderContactPerson' => $this->getSenderContactPerson(),
             'senderEmail' => $this->getSenderEmail(),
             'senderPhone' => $this->getSenderPhone(),
+            'senderCounty' => $this->getSenderCounty(),
         );
         
         $out['recipient'] = Array(
@@ -832,6 +880,7 @@ class NewShipmentEnity extends AbstractHelper
             'recipientContactPerson' => $this->getRecipientContactPerson(),
             'recipientEmail' => $this->getRecipientEmail(),
             'recipientPhone' => $this->getRecipientPhone(),
+            'recipientCounty' => $this->getRecipientCounty(),
             'pickupPlaceId' => $this->getPickupPlaceId(),
         );
         
