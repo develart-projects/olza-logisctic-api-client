@@ -19,3 +19,8 @@
 ## 1.1.1
 
 * changelog update and auto-push-flow test
+
+## 1.2.0
+
+* sender's and recipient's county added
+* Guzzle update
