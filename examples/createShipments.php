@@ -36,6 +36,7 @@ $shipment1->setApiCustomRef('ABC')
           ->setRecipientZipcode('70200')
           ->setRecipientEmail('test@test.com')
           ->setRecipientPhone('+420123456789')
+          ->setRecipientCounty('XYZ')
           ->setPackageCount(2)
           ->setWeight(2.5)
           ->setShipmentDescription('Golden shower')
@@ -57,6 +58,7 @@ $shipmentArray2 = array (
   'recipientContactPerson' => 'TEST contact',
   'recipientPhone' => '+420987654321',
   'recipientEmail' => 'test@test.com',
+  'recipientCounty' => 'XYZ',
   'shipmentDescription' => 'TEST content',
   'packageCount' => 1,
   'codAmount' => 1265,
