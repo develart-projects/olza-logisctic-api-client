@@ -24,3 +24,7 @@
 
 * sender's and recipient's county added
 * Guzzle update
+
+## 1.3.0
+
+* billing data and tracking URL added

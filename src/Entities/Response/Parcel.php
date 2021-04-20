@@ -49,6 +49,12 @@ class Parcel
     protected $speditionExternalBarcode = '';
     
     /**
+     *
+     * @var string 
+     */
+    protected $speditionExternalTrackingUrl = '';
+    
+    /**
      * 
      * @param string $id
      * @param string $packageType
@@ -168,8 +174,25 @@ class Parcel
         return $this;
     }
 
+    /**
+     * 
+     * @return string
+     */
+    public function getSpeditionExternalTrackingUrl() {
+        return $this->speditionExternalTrackingUrl;
+    }
 
-    
+    /**
+     * 
+     * @param string $speditionExternalTrackingUrl
+     * @return $this
+     */
+    public function setSpeditionExternalTrackingUrl($speditionExternalTrackingUrl) {
+        $this->speditionExternalTrackingUrl = $speditionExternalTrackingUrl;
+        return $this;
+    }
+
+        
     /**
      * Load data to output Parcel entity
      * @param array $data
@@ -202,6 +225,10 @@ class Parcel
         if( !empty($data['packageStatus']) ) {
             $parcel->setParcelStatus( $data['packageStatus'] );
         }
+        
+        if( !empty($data['speditionExternalTrackingUrl']) ) {
+            $parcel->setSpeditionExternalTrackingUrl( $data['speditionExternalTrackingUrl'] );
+        }   
         
         return $parcel;
         
