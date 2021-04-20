@@ -34,10 +34,17 @@ class Shipment
     protected $shipmentStatus;
     
     /**
+     * 
+     * @var Billing
+     */
+    protected $billingData;
+    
+    /**
      * Parcel list init
      */
     public function __construct() {
         $this->parcels = new ParcelList;
+        $this->billingData = new Billing;
     }
 
     
@@ -66,7 +73,26 @@ class Shipment
         $this->parcels = $parcels;
         return $this;
     }
-       
+    
+    /**
+     * All available billing data
+     * @return Billing
+     */
+    public function getBillingData() {
+        return $this->billingData;
+    }
+
+    /**
+     * 
+     * @param Billing $billingData
+     * @return $this
+     */
+    public function setBillingData(Billing $billingData) {
+        $this->billingData = $billingData;
+        return $this;
+    }
+
+           
     /**
      * Load data to output Shipment entity 
      * 
@@ -99,6 +125,10 @@ class Shipment
         
         if( !empty($data['packageList']) ) {
             $shipment->setParcels( ParcelList::fromApiData( $data['packageList'] ) );
+        }
+        
+        if( !empty($data['billingData']) ) {
+            $shipment->setBillingData( Billing::fromApiData( $data['billingData'] ) );
         }
          
         return $shipment;
