@@ -3,7 +3,6 @@
 namespace OlzaApiClient\Entities\Request;
 
 use OlzaApiClient\Entities\Helpers\HeaderEntity;
-use OlzaApiClient\Entities\Helpers\AbstractShipmentList;
 use OlzaApiClient\Interfaces\ApiImportInterface;
 use OlzaApiClient\Exception\ApiClientException;
 
@@ -49,11 +48,11 @@ class ApiBatchRequest {
     
     /**
      * Set paylod from list helper
-     * @param AbstractShipmentList $shipmentList
+     * @param ApiImportInterface $entity
      * @return ApiBatchRequest
      */
-    public function setPayloadFromHelper(AbstractShipmentList $shipmentList) {
-        $this->body['payload'] = $shipmentList->getApiRequestStructure();
+    public function setPayloadFromHelper(ApiImportInterface $entity) {
+        $this->body['payload'] = $entity->getApiRequestStructure();
         return $this;
     }
     
@@ -65,12 +64,8 @@ class ApiBatchRequest {
      */
     public function addToPayloadFromHelper(ApiImportInterface $entity) {
         
-        if($entity instanceof AbstractShipmentList) {
-            throw new ApiClientException('Unsupported entity to add, use setPayloadFromHelper() instead.');
-        }
-        
         $this->body['payload'][] = $entity->getApiRequestStructure();
-        
+
         return $this;
     }
     

@@ -17,6 +17,12 @@ class Shipment
     
     /**
      *
+     * @var ServiceList 
+     */
+    protected $services;
+    
+    /**
+     *
      * @var string
      */
     protected $apiCustomRef = NULL;
@@ -40,11 +46,55 @@ class Shipment
     protected $billingData;
     
     /**
+     * 
+     * @var Sender
+     */
+    protected $sender;
+    
+    /**
+     * 
+     * @var Recipient
+     */
+    protected $recipient;
+    
+    /**
+     * 
+     * @var Cod
+     */
+    protected $cod;
+    
+    /**
+     * 
+     * @var Preset
+     */
+    protected $preset;
+    
+    /**
+     * 
+     * @var SpecificData
+     */
+    protected $specific;
+    
+    /**
+     * 
+     * @var PackagesSummary
+     */
+    protected $packagesSummary;
+    
+    /**
      * Parcel list init
      */
     public function __construct() {
+        
         $this->parcels = new ParcelList;
         $this->billingData = new Billing;
+        $this->sender = new Sender;
+        $this->recipient = new Recipient;
+        $this->services = new ServiceList;
+        $this->cod = new Cod;
+        $this->preset = new Preset;
+        $this->specific = new SpecificData;
+        $this->packagesSummary = new PackagesSummary;
     }
 
     
@@ -75,6 +125,25 @@ class Shipment
     }
     
     /**
+     * 
+     * @return ServiceList
+     */
+    public function getServices() {
+        return $this->services;
+    }
+
+    /**
+     * 
+     * @param ServiceList $services
+     * @return $this
+     */
+    public function setServices(ServiceList $services) {
+        $this->services = $services;
+        return $this;
+    }
+
+        
+    /**
      * All available billing data
      * @return Billing
      */
@@ -91,8 +160,116 @@ class Shipment
         $this->billingData = $billingData;
         return $this;
     }
+    
+    /**
+     * 
+     * @return Sender
+     */
+    public function getSender() {
+        return $this->sender;
+    }
 
-           
+    /**
+     * 
+     * @return Recipient
+     */
+    public function getRecipient() {
+        return $this->recipient;
+    }
+
+    /**
+     * 
+     * @param Sender $sender
+     * @return $this
+     */
+    public function setSender(Sender $sender) {
+        $this->sender = $sender;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param Recipient $recipient
+     * @return $this
+     */
+    public function setRecipient(Recipient $recipient) {
+        $this->recipient = $recipient;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return Cod
+     */
+    public function getCod() {
+        return $this->cod;
+    }
+
+    /**
+     * 
+     * @return Preset
+     */
+    public function getPreset() {
+        return $this->preset;
+    }
+
+    /**
+     * 
+     * @param Cod $cod
+     * @return $this
+     */
+    public function setCod(Cod $cod) {
+        $this->cod = $cod;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param Preset $preset
+     * @return $this
+     */
+    public function setPreset(Preset $preset) {
+        $this->preset = $preset;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return SpecificData
+     */
+    public function getSpecific() {
+        return $this->specific;
+    }
+
+    /**
+     * 
+     * @return PackagesSummary
+     */
+    public function getPackagesSummary() {
+        return $this->packagesSummary;
+    }
+
+    /**
+     * 
+     * @param SpecificData $specific
+     * @return $this
+     */
+    public function setSpecific(SpecificData $specific) {
+        $this->specific = $specific;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param PackagesSummary $packagesSummary
+     * @return $this
+     */
+    public function setPackagesSummary(PackagesSummary $packagesSummary) {
+        $this->packagesSummary = $packagesSummary;
+        return $this;
+    }
+    
+               
     /**
      * Load data to output Shipment entity 
      * 
@@ -129,6 +306,34 @@ class Shipment
         
         if( !empty($data['billingData']) ) {
             $shipment->setBillingData( Billing::fromApiData( $data['billingData'] ) );
+        }
+        
+        if( !empty($data['sender']) ) {
+            $shipment->setSender( Sender::fromApiData( $data['sender'] ) );
+        }
+        
+        if( !empty($data['recipient']) ) {
+            $shipment->setRecipient(Recipient::fromApiData( $data['recipient'] ) );
+        }
+        
+        if( !empty($data['services']) ) {
+            $shipment->setServices(ServiceList::fromApiData( $data['services'] ) );
+        }
+        
+        if( !empty($data['preset']) ) {
+            $shipment->setPreset( Preset::fromApiData( $data['preset'] ) );
+        }
+        
+        if( !empty($data['cod']) ) {
+            $shipment->setCod( Cod::fromApiData( $data['cod'] ) );
+        }
+        
+        if( !empty($data['specific']) ) {
+            $shipment->setSpecific( SpecificData::fromApiData( $data['specific'] ) );
+        }
+        
+        if( !empty($data['packages']) ) {
+            $shipment->setPackagesSummary( PackagesSummary::fromApiData( $data['packages'] ) );
         }
          
         return $shipment;

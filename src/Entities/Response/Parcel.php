@@ -2,6 +2,8 @@
 
 namespace OlzaApiClient\Entities\Response;
 
+use DateTime;
+
 /**
  * Generic single Parcel output entity
  */
@@ -53,6 +55,12 @@ class Parcel
      * @var string 
      */
     protected $speditionExternalTrackingUrl = '';
+    
+    /**
+     * 
+     * @var DateTime|null
+     */
+    protected $deliveryDate = NULL;
     
     /**
      * 
@@ -191,7 +199,33 @@ class Parcel
         $this->speditionExternalTrackingUrl = $speditionExternalTrackingUrl;
         return $this;
     }
+    
+    /**
+     * 
+     * @return DateTime|null
+     */
+    public function getDeliveryDate() {
+        return $this->deliveryDate;
+    }
 
+    /**
+     * 
+     * @param DateTime $deliveryDate
+     * @return $this
+     */
+    public function setDeliveryDate(DateTime $deliveryDate) {
+        $this->deliveryDate = $deliveryDate;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return bool
+     */
+    public function hasDeliveryDate() {
+        return $this->getDeliveryDate() instanceof DateTime;
+    }
+    
         
     /**
      * Load data to output Parcel entity
@@ -228,7 +262,11 @@ class Parcel
         
         if( !empty($data['speditionExternalTrackingUrl']) ) {
             $parcel->setSpeditionExternalTrackingUrl( $data['speditionExternalTrackingUrl'] );
-        }   
+        }  
+        
+        if( !empty($data['deliveryDate']) ) {
+            $parcel->setDeliveryDate( DateTime::createFromFormat('Y-m-d H:i:s', $data['deliveryDate'] ) );
+        }
         
         return $parcel;
         

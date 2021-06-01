@@ -28,3 +28,7 @@
 ## 1.3.0
 
 * billing data and tracking URL added
+
+## 1.4.0
+
+* new method getShipmentsDetails
