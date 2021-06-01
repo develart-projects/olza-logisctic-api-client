@@ -45,5 +45,14 @@ class ProcessedList extends ArrayObject
         return $container;
         
     }
+    
+    /**
+     * Check wheter list of processed items has some of given id
+     * @param mixed $id
+     * @return bool
+     */
+    public function hasItemOfId($id) {
+        return $this->offsetExists($id);
+    }
 
 }
