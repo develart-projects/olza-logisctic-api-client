@@ -36,6 +36,9 @@ $apiRequest = new ApiBatchRequest();
 $apiRequest->setHeaderFromHelper($header)
            ->setPayloadFromHelper($shipments);
 
+// set if history should be displayed (use only if really needed - it's can slow down the request!!!)
+$shipments->setShowHistory();
+
 // communicate with OLza API using client
 $apiClient = new ApiClient($apiUrl);
 $apiResponse = $apiClient->getStatuses($apiRequest);
