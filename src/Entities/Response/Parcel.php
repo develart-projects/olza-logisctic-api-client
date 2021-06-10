@@ -64,6 +64,12 @@ class Parcel
     
     /**
      * 
+     * @var ParcelStatusLogList
+     */
+    protected $parcelStatusHistory;
+    
+    /**
+     * 
      * @param string $id
      * @param string $packageType
      */
@@ -226,7 +232,25 @@ class Parcel
         return $this->getDeliveryDate() instanceof DateTime;
     }
     
-        
+    /**
+     * 
+     * @return ParcelStatusLogList
+     */
+    public function getParcelStatusHistory() {
+        return $this->parcelStatusHistory;
+    }
+
+    /**
+     * 
+     * @param ParcelStatusLogList $parcelStatusHistory
+     * @return $this
+     */
+    public function setParcelStatusHistory(ParcelStatusLogList $parcelStatusHistory) {
+        $this->parcelStatusHistory = $parcelStatusHistory;
+        return $this;
+    }
+
+            
     /**
      * Load data to output Parcel entity
      * @param array $data
@@ -267,6 +291,10 @@ class Parcel
         if( !empty($data['deliveryDate']) ) {
             $parcel->setDeliveryDate( DateTime::createFromFormat('Y-m-d H:i:s', $data['deliveryDate'] ) );
         }
+        
+        if( !empty($data['packageStatusHistory']) ) {
+            $parcel->setParcelStatusHistory( ParcelStatusLogList::fromApiData( $data['packageStatusHistory'] ) );
+        } 
         
         return $parcel;
         

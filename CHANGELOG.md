@@ -32,3 +32,7 @@
 ## 1.4.0
 
 * new method getShipmentsDetails
+
+## 1.5.0
+
+* status history added to getStatuses
