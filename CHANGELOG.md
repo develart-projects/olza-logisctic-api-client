@@ -36,3 +36,7 @@
 ## 1.5.0
 
 * status history added to getStatuses
+
+## 1.5.1
+
+* dispatchPlaceId param added

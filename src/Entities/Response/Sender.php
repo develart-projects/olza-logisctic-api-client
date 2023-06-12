@@ -64,6 +64,12 @@ class Sender
      * @var string 
      */
     protected $senderEmail = '';
+    
+    /**
+     * 
+     * @var string
+     */
+    protected $dispatchPlaceId = '';
 
     
     /**
@@ -236,7 +242,25 @@ class Sender
         return $this;
     }
 
-    
+    /**
+     * 
+     * @return string
+     */
+    public function getDispatchPlaceId() {
+        return $this->dispatchPlaceId;
+    }
+
+    /**
+     * 
+     * @param string $dispatchPlaceId
+     * @return $this
+     */
+    public function setDispatchPlaceId($dispatchPlaceId) {
+        $this->dispatchPlaceId = $dispatchPlaceId;
+        return $this;
+    }
+
+        
     /**
      * Load data to output Shipment entity 
      * 
@@ -277,6 +301,10 @@ class Sender
         
         if( !empty($data['senderCounty']) ) {
             $entity->setSenderCounty($data['senderCounty']);
+        }
+        
+        if( !empty($data['dispatchPlaceId']) ) {
+            $entity->setDispatchPlaceId($data['dispatchPlaceId']);
         }
          
         return $entity;
