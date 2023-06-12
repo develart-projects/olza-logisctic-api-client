@@ -70,6 +70,12 @@ class Recipient
      * @var string 
      */
     protected $recipientEmail = '';
+    
+    /**
+     * 
+     * @var string
+     */
+    protected $pickupPlaceId = '';
 
     
     /**
@@ -254,6 +260,25 @@ class Recipient
     }
     
     /**
+     * 
+     * @return string
+     */
+    public function getPickupPlaceId() {
+        return $this->pickupPlaceId;
+    }
+
+    /**
+     * 
+     * @param string $pickupPlaceId
+     * @return $this
+     */
+    public function setPickupPlaceId($pickupPlaceId) {
+        $this->pickupPlaceId = $pickupPlaceId;
+        return $this;
+    }
+
+        
+    /**
      * Assebmled
      * @return string
      */
@@ -353,6 +378,10 @@ class Recipient
         
         if( !empty($data['recipientCounty']) ) {
             $entity->setRecipientCounty($data['recipientCounty']);
+        }
+        
+        if( !empty($data['pickupPlaceId']) ) {
+            $entity->setPickupPlaceId($data['pickupPlaceId']);
         }
          
         return $entity;

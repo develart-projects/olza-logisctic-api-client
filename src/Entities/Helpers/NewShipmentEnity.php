@@ -142,6 +142,12 @@ class NewShipmentEnity extends AbstractHelper
     
     /**
      *
+     * @var string 
+     */
+    protected $dispatchPlaceId;
+    
+    /**
+     *
      * @var array 
      */
     protected $services = Array();
@@ -841,7 +847,26 @@ class NewShipmentEnity extends AbstractHelper
         $this->recipientCounty = $recipientCounty;
         return $this;
     }
-                
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getDispatchPlaceId() {
+        return $this->dispatchPlaceId;
+    }
+
+    /**
+     * 
+     * @param string $dispatchPlaceId
+     * @return $this
+     */
+    public function setDispatchPlaceId($dispatchPlaceId) {
+        $this->dispatchPlaceId = $dispatchPlaceId;
+        return $this;
+    }
+
+                    
     /**
      * Convert object to formated array
      * @return array
@@ -869,6 +894,7 @@ class NewShipmentEnity extends AbstractHelper
             'senderEmail' => $this->getSenderEmail(),
             'senderPhone' => $this->getSenderPhone(),
             'senderCounty' => $this->getSenderCounty(),
+            'dispatchPlaceId' => $this->getDispatchPlaceId(),
         );
         
         $out['recipient'] = Array(
