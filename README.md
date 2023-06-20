@@ -74,7 +74,7 @@ echo '<pre>';
 print_r($apiResponse);
 echo '</pre>';
 ```
-## Installing Guzzle
+## Installing the client
 
 The recommended way to install Olza Logistic API client is through
 [Composer](http://getcomposer.org).
