@@ -40,3 +40,7 @@
 ## 1.5.1
 
 * dispatchPlaceId param added
+
+## 1.5.2
+
+* updated Readme
