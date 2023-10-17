@@ -1,46 +1,52 @@
 # Change Log
 
-## 0.9.0 - 2018-06-27
+## 1.6.0 - 2023-10-17
 
-* Init: Initial pre-production version of client
+* HTTP client decoupled from the library (preventing version clashes)
+* OL client instantination changed
+* Readme and examples updated
 
-## 0.9.1 
+## 1.5.2
 
-* Exception factory fix (back reference pre-check)
+* updated Readme
 
-## 1.0.0 
+## 1.5.1
 
-* external tracking numbers added to getStatuses call
+* dispatchPlaceId param added
 
-## 1.1.0 
+## 1.5.0
 
-* added marketPlaceId parameter
+* status history added to getStatuses
 
-## 1.1.1
+## 1.4.0
 
-* changelog update and auto-push-flow test
+* new method getShipmentsDetails
+
+## 1.3.0
+
+* billing data and tracking URL added
 
 ## 1.2.0
 
 * sender's and recipient's county added
 * Guzzle update
 
-## 1.3.0
+## 1.1.1
 
-* billing data and tracking URL added
+* changelog update and auto-push-flow test
 
-## 1.4.0
+## 1.1.0 
 
-* new method getShipmentsDetails
+* added marketPlaceId parameter
 
-## 1.5.0
+## 1.0.0 
 
-* status history added to getStatuses
+* external tracking numbers added to getStatuses call
 
-## 1.5.1
+## 0.9.1 
 
-* dispatchPlaceId param added
+* Exception factory fix (back reference pre-check)
 
-## 1.5.2
+## 0.9.0 - 2018-06-27
 
-* updated Readme
+* Init: Initial pre-production version of client

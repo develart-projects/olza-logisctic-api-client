@@ -1,7 +1,7 @@
 {
     "name": "develart-projects/olza-logisctic-api-client",
     "description": "Client for Olza Logistic system API",
-    "version": "1.5.2",
+    "version": "1.6.0",
     "keywords": ["Olza", "OlzaLogistic", "API client", "Olza API client", "DevelArt"],
     "license": "MIT",
     "autoload": {
@@ -16,9 +16,13 @@
         }
     ],  
     "require" : {
-      "guzzlehttp/guzzle": "^7.2",
-      "php": ">=5.4",
+      "psr/http-client": "^1.0",
+      "psr/http-factory": "^1.0",
+      "php": ">=7.1",
       "ext-json": "*"  
+    },
+    "suggest": {
+        "guzzlehttp/guzzle": "Provides http package to the client automaticaly."
     }
 }
 

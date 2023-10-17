@@ -8,12 +8,11 @@ use OlzaApiClient\Exception\ResponseException;
 use OlzaApiClient\Exception\ApiClientException;
 
 use OlzaApiClient\Interfaces\TransportInterface;
-    
-use GuzzleHttp;
-use GuzzleHttp\RequestOptions;
-use GuzzleHttp\Client as HttpClient;
+
+use Psr\Http\Client\ClientInterface as HttpClient;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
-use GuzzleHttp\Exception\ClientException as HttpException;
     
 use Exception;
 
@@ -27,33 +26,98 @@ class Transport
     const METHOD_POST = 'POST';
     const METHOD_GET = 'GET';
     
+    const API_CALL_URI = '/api/v1/';
+    
     /**
      *
      * @var string 
      */
-    protected $apiCallUri = '/api/v1/';   
+    protected $apiCallUri;   
     
     /**
      *
      * @var HttpClient 
      */
-    protected $provider = NULL;
+    protected $provider;
+    
+    /**
+     * 
+     * @var RequestFactoryInterface
+     */
+    protected $requestFactory;
+    
+    /**
+     * 
+     * @var StreamFactoryInterface
+     */
+    protected $streamFactory;
 
     
     /**
-     * Prepare client for new connection.
+     * If parameters beyond API URL are empty, client will try to use Guzzle automaticaly, if installed.
+     * Http client must be PSR-18 type and factory implementations must follow PSR-17.     * 
      * 
      * @param string $apiUrl
+     * @param HttpClient $httpClient = NULL
+     * @param RequestFactoryInterface $requestFactory = NULL
+     * @param StreamFactoryInterface $streamFactory = NULL
      */
-    public function __construct($apiUrl) {
+    public function __construct($apiUrl, HttpClient $httpClient = NULL, RequestFactoryInterface $requestFactory = NULL, StreamFactoryInterface $streamFactory = NULL) {
         
-        // init
-        $this->provider = new HttpClient(
-                    Array(
-                        'base_uri' => $apiUrl . $this->apiCallUri,
-                       // RequestOptions::HTTP_ERRORS => FALSE,
-                    )
-                );
+        // try auto-guzzle setup (or fail)
+        if($httpClient === NULL) {
+            
+            $this->withGuzzleHttpClient();            
+            
+        } else { // explicit PSR-18 http client
+            
+            if($requestFactory === NULL) {
+                throw new \RuntimeException('RequestFactory not found. See library docs for assistance.');
+            }
+            
+            if($requestFactory === NULL) {
+                throw new \RuntimeException('StreamFactory not found. See library docs for assistance.');
+            }
+            
+            $this->provider = $httpClient; 
+            $this->requestFactory = $requestFactory;
+            $this->streamFactory = $streamFactory;
+        }        
+
+        $this->apiCallUri = $apiUrl . self::API_CALL_URI;
+
+    }
+    
+    /**
+     * Configures Client instance to use Guzzle HTTP client.
+     *
+     * NOTE: Requires Guzzle package to be installed.
+     */
+    protected function withGuzzleHttpClient()
+    {
+
+        // NOTE: do NOT move Guzzle reference out of this method! This code is OPTIONAL and
+        // if you "optimize" by i.e. adding "use" instead, then instantiation of this
+        // class will be Guzzle dependent and will simply fail if there's no Guzzle dependency.
+        /** @noinspection ClassConstantCanBeUsedInspection */
+        $httpClientClass = '\GuzzleHttp\Client';
+
+        if (!\class_exists($httpClientClass)) {
+            throw new \RuntimeException('Guzzle HTTP client not found. See library docs for assistance.');
+        }
+        
+        $guzzleOptions = [
+            'http_errors' => false,
+            ];
+
+        $this->provider = new $httpClientClass($guzzleOptions);
+        
+        // this is part of Guzzle by default
+        $psr17factoryClass = '\Nyholm\Psr7\Factory\Psr17Factory';        
+        
+        $this->requestFactory = new $psr17factoryClass;
+        $this->streamFactory = new $psr17factoryClass;
+
     }
     
     /**
@@ -66,26 +130,37 @@ class Transport
      * @throws ApiException
      */
     protected function request($apiCall, $method, array $body = NULL) {
-        
+       
         try {
             
+            $request = $this->requestFactory->createRequest($method, $this->apiCallUri . $apiCall)
+                        ->withHeader('Accept', 'application/json');
+ 
             //communication
             if($method == self::METHOD_POST) { // POST
-                
-                $response = $this->provider->request($method, $apiCall, Array(
-                    RequestOptions::JSON => $body
-                ));
-                
+       
+                $request = $request->withHeader('Content-Type', 'application/json');
+
+                $requestWithBody = $request->withBody(
+                        $this->streamFactory->createStream( json_encode($body) )
+                );
+    
+                $response = $this->provider->sendRequest($requestWithBody);
+        
             } else { // GET
-                $response = $this->provider->request($method, $apiCall);
+                $response = $this->provider->sendRequest($request);
             }
             
+            if($response->getStatusCode() >= 400) {
+                throw new ApiTransportException($response->getReasonPhrase(), $response->getStatusCode());
+            }
+        
             // decode response to structured array
             return $this->decodeResponse($response);
             
-        } catch(HttpException $he) { // HTTP errors - specific to Guzzle
+        } catch(ApiTransportException $ate) { // HTTP errors - specific to communication
             
-            throw new ApiTransportException("Communication with API failed - HTTP RC {$he->getCode()}", $he->getCode());
+            throw new ApiTransportException("Communication with API failed - HTTP RC {$ate->getCode()}", $ate->getCode());
             
         } catch(ApiException $he) { // direct API errors
             
@@ -112,7 +187,7 @@ class Transport
             
             $body = $response->getBody()->getContents();
            
-            $bodyArray = GuzzleHttp\json_decode($body, true);
+            $bodyArray = json_decode($body, true);
             
         } catch(Exception $e) {
             throw new ResponseException('Unable to decode response: ' . $e->getMessage());

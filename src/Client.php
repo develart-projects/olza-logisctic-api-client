@@ -2,12 +2,10 @@
 
 namespace OlzaApiClient;
 
-use OlzaApiClient\Services\Transport,
+use OlzaApiClient\Interfaces\TransportInterface,
     OlzaApiClient\Entities\Request\ApiBatchRequest;
 
-use OlzaApiClient\Entities\Response\Parcel,
-    OlzaApiClient\Entities\Response\ParcelList,
-    OlzaApiClient\Entities\Response\ErrorList,
+use OlzaApiClient\Entities\Response\ErrorList,
     OlzaApiClient\Entities\Response\ProcessedList,
     OlzaApiClient\Entities\Response\DataStream,
     OlzaApiClient\Entities\Response\ApiBatchResponse;
@@ -17,7 +15,7 @@ use OlzaApiClient\Exception\ValidationException;
 use OlzaApiClient\Exception\ResponseException;
 use OlzaApiClient\Exception\SpeditionException;
 use OlzaApiClient\Exception\ProcessingException;
-use OlzaApiClient\Exception\ApiClientException;
+
 
 /**
  * Client for communication with Olza Logistic sever API
@@ -66,11 +64,11 @@ class Client
 
     /**
      * 
-     * @param string $apiUrl
+     * @param TransportInterface $transportService
      */
-    public function __construct($apiUrl) {
+    public function __construct(TransportInterface $transportService) {
 
-        $this->transport = new Transport($apiUrl);
+        $this->transport = $transportService;
     }
 
     /**
