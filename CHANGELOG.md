@@ -1,8 +1,10 @@
 # Change Log
 
-## 1.6.0
+## 1.6.0 - 2023-10-17
 
 * HTTP client decoupled from the library (preventing version clashes)
+* OL client instantination changed
+* Readme and examples updated
 
 ## 1.5.2
 

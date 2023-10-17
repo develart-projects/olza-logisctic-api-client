@@ -7,9 +7,16 @@ use OlzaApiClient\Client as ApiClient;
 use OlzaApiClient\Services\Transport;
 
 use OlzaApiClient\Entities\Helpers\HeaderEntity;
-use OlzaApiClient\Entities\Helpers\GetStatusesEntity;
+use OlzaApiClient\Entities\Helpers\GetLabelsEnity;
 
 use OlzaApiClient\Entities\Request\ApiBatchRequest;
+
+// PSR-17 factories
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Symfony\Component\HttpClient\Psr18Client as HttpClient;
+
+// PSR-18 client
+
 
 // YOUR TESTING CREDENTIALS AND SETTINGS
 $apiUser = 'XXX';
@@ -24,7 +31,7 @@ $header->setApiUser($apiUser)
        ->setLanguage( HeaderEntity::LANG_CS );
 
 // build new shipment using inluded helper
-$shipments = new GetStatusesEntity();
+$shipments = new GetLabelsEnity();
 $shipments->addShipmentId(487)
           ->addShipmentId(486);
 
@@ -37,14 +44,23 @@ $apiRequest = new ApiBatchRequest();
 $apiRequest->setHeaderFromHelper($header)
            ->setPayloadFromHelper($shipments);
 
-// set if history should be displayed (use only if really needed - it's can slow down the request!!!)
-$shipments->setShowHistory();
 
-// communicate with OLza API using client
-$transportService = new Transport($apiUrl);
+// prepare Transport object using any PSR-17 factories
+$psr17factory = new Psr17Factory; // covers Request/Response/Stream Factory, but you can use any other
+
+// prepare PSR-18 Symfony client (or any other)
+$httpClient = new HttpClient(null, new Psr17Factory, new Psr17Factory);
+
+// setup transport using your supplied objects
+$requestFactory = new Psr17Factory;
+$streamFactory = new Psr17Factory;
+        
+$transportService = new Transport($apiUrl, $httpClient, $requestFactory, $streamFactory);
+
+// client is created as usual
 $apiClient = new ApiClient($transportService);
-$apiResponse = $apiClient->getStatuses($apiRequest);
-     
+$apiResponse = $apiClient->getLabels($apiRequest);
+   
 echo '<pre>';
 print_r($apiResponse);
 echo '</pre>';

@@ -4,6 +4,7 @@
 include '../vendor/autoload.php';
 
 use OlzaApiClient\Client as ApiClient;
+use OlzaApiClient\Services\Transport;
 
 use OlzaApiClient\Entities\Helpers\HeaderEntity;
 use OlzaApiClient\Entities\Helpers\PostShipmentsEnity;
@@ -37,7 +38,8 @@ $apiRequest->setHeaderFromHelper($header)
            ->setPayloadFromHelper($shipments);
 
 // communicate with OLza API using client
-$apiClient = new ApiClient($apiUrl);
+$transportService = new Transport($apiUrl);
+$apiClient = new ApiClient($transportService);
 $apiResponse = $apiClient->postShipments($apiRequest);
     
 echo '<pre>';
