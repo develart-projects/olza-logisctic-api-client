@@ -113,7 +113,7 @@ class Transport
         $this->provider = new $httpClientClass($guzzleOptions);
         
         // this is part of Guzzle by default
-        $psr17factoryClass = '\Nyholm\Psr7\Factory\Psr17Factory';        
+        $psr17factoryClass = '\GuzzleHttp\Psr7\HttpFactory';        
         
         $this->requestFactory = new $psr17factoryClass;
         $this->streamFactory = new $psr17factoryClass;

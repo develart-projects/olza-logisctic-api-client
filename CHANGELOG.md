@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.6.1 - 2023-10-17
+
+* Corected path to default Guzzle HttpFactory
+
 ## 1.6.0 - 2023-10-17
 
 * HTTP client decoupled from the library (preventing version clashes)
