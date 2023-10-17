@@ -6,6 +6,20 @@ Olza Logistic PHP API client is a useful PHP helper for developers who want to i
 
 For additional information please contact your dedicated Olza Logistic manager.
 
+## Important notices
+
+It's recommended to lock client minor version in composer to avoid unintended client interface changes, which can occur in between the minor versions.
+
+```json
+"require" : {
+      "develart-projects/olza-logisctic-api-client": "~1.5"
+    }
+```
+
+**!! Breaking change from version 1.6.0 !!**
+From version 1.6.0 http client is decoupled and Guzzle is not provided by default. You have to either install it by yourself or you are free to use any PSR-18 client instead.
+Instantination of the client has also changed.
+
 ## Features
 
 - client provides standard interface for preparing requests, including entities for each API call
@@ -24,12 +38,13 @@ The client is documented using DocBlock, so feel free to read the description of
 * **src/entities/response** - classes, which hold returned results. Client sorts all response types into provided classes. Whole response is accessible by ApiBatchResponse object
 * **exception** - all exception types by API event. Read class description to get meaning of an exception.
 
-## Basic usage example
+## Basic usage example (using Guzzle client)
 
 More verbose usage examples are located in the **examples** folder.
 Contact your dedicated Olza Logistic manager to gain access to API and URLs.
 
-The client has only one mandatory constructor parameter: API URL.
+The client has only one mandatory constructor parameter: Transport object. This object covers all needs for HTTP communication and it's part or the package. By setting up Transport object, you are telling to client how to communicate.
+**In this example Guzzle client has to be installed before client is used.**
 
 Example of getting shipments statuses:
 
@@ -38,6 +53,7 @@ Example of getting shipments statuses:
 include '../vendor/autoload.php';
 
 use OlzaApiClient\Client as ApiClient;
+use OlzaApiClient\Services\Transport;
 
 use OlzaApiClient\Entities\Helpers\HeaderEntity;
 use OlzaApiClient\Entities\Helpers\GetStatusesEntity;
@@ -66,14 +82,49 @@ $apiRequest = new ApiBatchRequest();
 $apiRequest->setHeaderFromHelper($header)
            ->setPayloadFromHelper($shipments);
 
+// prepare Transport object
+$transportService = new Transport($apiUrl); // <-- will use Guzzle, if installed
+
 // communicate with Olza API using client
-$apiClient = new ApiClient($apiUrl);
+$apiClient = new ApiClient($transportService);
 $apiResponse = $apiClient->getStatuses($apiRequest);
 
 echo '<pre>';
 print_r($apiResponse);
 echo '</pre>';
 ```
+
+## Advanced usage example (using any PSR-18 client)
+
+This is really handy, when Guzzle can't be used, because of version clashes, or if you preffer any other http client. Http client has to follow PSR-18 interface and you will need PSR-17 factories as well. Implementation details are your choice.
+
+Example of setting up client using PSR-18 http client.
+This example is using Symfony PSR-18 http client (symfony/http-client) and Http Soft PSR-17 factories (httpsoft/http-message).
+
+```php
+// Setup autoloading
+include '../vendor/autoload.php';
+
+use OlzaApiClient\Client as ApiClient;
+use OlzaApiClient\Services\Transport;
+
+// your custom PSR-17 packages
+use HttpSoft\Message\RequestFactory;
+use HttpSoft\Message\ResponseFactory;
+use HttpSoft\Message\StreamFactory;
+
+// prepare HTTP client
+$httpClient = new \Symfony\Component\HttpClient\Psr18Client(null, new ResponseFactory, new StreamFactory);
+
+// prepare transport object with your custom packages
+$transportService = new Transport($apiUrl, $httpClient, new RequestFactory, new StreamFactory);
+
+// now you can use the client
+$apiClient = new ApiClient($transportService);
+```
+
+You can combine all 3 additional params of the Transport object as you wish.
+
 ## Installing the client
 
 The recommended way to install Olza Logistic API client is through
@@ -101,13 +152,3 @@ You can then later update Client using composer:
  ```bash
 composer.phar update
  ```
-
-## Important notice
-
-It's recommended to lock client minor version in composer to avoid unintended client interface changes, which can occur in between the minor versions.
-
-```json
-"require" : {
-      "develart-projects/olza-logisctic-api-client": "1.0.*"
-    }
-```
