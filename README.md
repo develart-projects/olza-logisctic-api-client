@@ -12,7 +12,7 @@ It's recommended to lock client minor version in composer to avoid unintended cl
 
 ```json
 "require" : {
-      "develart-projects/olza-logisctic-api-client": "~1.5"
+      "develart-projects/olza-logisctic-api-client": "~1.5.0"
     }
 ```
 
