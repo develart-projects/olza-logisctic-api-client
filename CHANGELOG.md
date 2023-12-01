@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.6.2 - 2023-12-01
+
+* Added ricipient warehouse flag to the NewShipment Helper
+
 ## 1.6.1 - 2023-10-17
 
 * Corected path to default Guzzle HttpFactory

@@ -213,6 +213,12 @@ class NewShipmentEnity extends AbstractHelper
     protected $recipientCounty;
     
     /**
+     *
+     * @var bool 
+     */
+    protected $recipientWarehouseFlag = false;
+    
+    /**
      * 
      * @return string
      */
@@ -865,7 +871,26 @@ class NewShipmentEnity extends AbstractHelper
         $this->dispatchPlaceId = $dispatchPlaceId;
         return $this;
     }
+    
+    /**
+     * 
+     * @return bool
+     */
+    public function getRecipientWarehouseFlag() {
+        return $this->recipientWarehouseFlag;
+    }
 
+    /**
+     * 
+     * @param bool $recipientWarehouseFlag
+     * @return $this
+     */
+    public function setRecipientWarehouseFlag($recipientWarehouseFlag) {
+        $this->recipientWarehouseFlag = $recipientWarehouseFlag;
+        return $this;
+    }
+
+    
                     
     /**
      * Convert object to formated array
@@ -898,6 +923,7 @@ class NewShipmentEnity extends AbstractHelper
         );
         
         $out['recipient'] = Array(
+            'recipientWarehouseFlag' => $this->getRecipientWarehouseFlag(),
             'recipientFirstname' => $this->getRecipientFirstname(),
             'recipientSurname' => $this->getRecipientSurname(),
             'recipientAddress' => $this->getRecipientAddress(),
