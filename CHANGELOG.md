@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.6.3 - 2024-08-02
+
+* PostShipments response extended, InfoList adn Info objects added
+
 ## 1.6.2 - 2023-12-01
 
 * Added ricipient warehouse flag to the NewShipment Helper

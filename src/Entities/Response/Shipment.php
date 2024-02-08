@@ -82,6 +82,12 @@ class Shipment
     protected $packagesSummary;
     
     /**
+     * 
+     * @var InfoList
+     */
+    protected $infoMessages;
+    
+    /**
      * Parcel list init
      */
     public function __construct() {
@@ -95,6 +101,7 @@ class Shipment
         $this->preset = new Preset;
         $this->specific = new SpecificData;
         $this->packagesSummary = new PackagesSummary;
+        $this->infoMessages = new InfoList;
     }
 
     
@@ -277,7 +284,7 @@ class Shipment
      * @return Shipment
      */
     public static function fromApiData($data) {
-        
+       
         $shipment = new self();
         
         if( !empty($data['apiCustomRef']) ) {
@@ -334,6 +341,10 @@ class Shipment
         
         if( !empty($data['packages']) ) {
             $shipment->setPackagesSummary( PackagesSummary::fromApiData( $data['packages'] ) );
+        }
+        
+        if( !empty($data['infoMessages']) ) {
+            $shipment->setInfoMessages( InfoList::fromApiData( $data['infoMessages'] ) );
         }
          
         return $shipment;
@@ -401,5 +412,25 @@ class Shipment
         $this->shipmentStatus = $shipmentStatus;
         return $this;
     }
+    
+    /**
+     * 
+     * @return InfoList
+     */
+    public function getInfoMessages(): InfoList {
+        return $this->infoMessages;
+    }
+
+    /**
+     * 
+     * @param InfoList $infoMessages
+     * @return $this
+     */
+    public function setInfoMessages(InfoList $infoMessages) {
+        $this->infoMessages = $infoMessages;
+        return $this;
+    }
+
+
     
 }
