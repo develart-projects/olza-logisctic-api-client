@@ -43,6 +43,33 @@ $shipment1->setApiCustomRef('ABC')
           ->setShipmentDescription('Golden shower')
           ->addService('XS', true);
 
+// add Customs, if necessary
+$customsParams = [
+    'invoice_num' => 11112222,
+];
+
+$customsItems = [
+    [
+        'weight' => 1.12,
+        'description' => 'Package item 1',   
+    ],
+    [
+        'weight' => 2,
+        'description' => 'Package item 2',   
+    ]
+];
+
+$shipment1->setCustomsParams($customsParams)
+          ->setCustomsItems($customsItems);
+
+$customsItemAdded = [
+        'weight' => 4,
+        'description' => 'Package item 3',   
+];
+
+$shipment1->addItemToCustoms($customsItemAdded);
+
+
 // build 2nd shipment from flat array
 $shipmentArray2 = array (
   'apiCustomRef' => 'XYZ',  
@@ -68,6 +95,21 @@ $shipmentArray2 = array (
   'services' =>array (
                           'SM2' => '+420987654321',
         ),
+  'customs' => [
+        'params' => [
+            'invoice_num' => 11112222,
+        ],  
+        'items' => [
+            [
+                'weight' => 1.12,
+                'description' => 'Package item 1',   
+            ],
+            [
+                'weight' => 2,
+                'description' => 'Package item 2',   
+            ]
+        ],
+  ],  
 );
 
 $shipment2 = new NewShipmentEnity();

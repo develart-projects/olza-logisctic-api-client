@@ -1,6 +1,10 @@
 # Change Log
 
-## 1.6.3 - 2024-08-02
+## 1.6.4 - 2024-04-24
+
+* Added Customs fields to NewShipment helper
+
+## 1.6.3 - 2024-02-08
 
 * PostShipments response extended, InfoList adn Info objects added
 

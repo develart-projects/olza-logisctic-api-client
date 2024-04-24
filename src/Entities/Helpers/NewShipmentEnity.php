@@ -220,6 +220,16 @@ class NewShipmentEnity extends AbstractHelper
     
     /**
      * 
+     * @var array
+     */
+    protected $customs = [
+        'params' => [],
+        'items' => [],
+    ];
+    
+    
+    /**
+     * 
      * @return string
      */
     public function getApiCustomRef() {
@@ -890,7 +900,70 @@ class NewShipmentEnity extends AbstractHelper
         return $this;
     }
 
+    /**
+     * 
+     * @return array
+     */
+    public function getCustoms(): array {
+        return $this->customs;
+    }
+
+    /**
+     * Internal structure according to the docummentation.
+     * 
+     * @param array $customs
+     * @return $this
+     */
+    public function setCustoms(array $customs) {
+        $this->customs = $customs;
+        return $this;
+    }
     
+    /**
+     * Internal structure according to the docummentation.
+     * 
+     * @param array $params
+     * @return $this
+     */
+    public function setCustomsParams(array $params) {
+        $this->customs['params'] = $params;
+        return $this;
+    }
+    
+    /**
+     * Internal structure according to the docummentation.
+     * 
+     * @param array $items
+     * @return $this
+     */
+    public function setCustomsItems(array $items) {
+        $this->customs['items'] = $items;
+        return $this;
+    }
+    
+    /**
+     * Internal structure according to the docummentation.
+     * 
+     * @param string $paramCode
+     * @param mixed $paramValue
+     * @return $this
+     */
+    public function addParamToCustoms($paramCode, $paramValue) {
+        $this->customs['params'][$paramCode] = $paramValue;
+        return $this;
+    }
+    
+    /**
+     * Internal structure according to the docummentation.
+     * 
+     * @param array $item
+     * @return $this
+     */
+    public function addItemToCustoms(array $item) {
+        $this->customs['items'][] = $item;
+        return $this;
+    }
+
                     
     /**
      * Convert object to formated array
@@ -954,6 +1027,8 @@ class NewShipmentEnity extends AbstractHelper
             'shipmentPickupDate' => $this->getShipmentPickupDate(),
             'marketPlaceId' => $this->getMarketPlaceId(),
         );
+        
+        $out['customs'] = $this->getCustoms();
         
         return $this->arrayFilterRecursive($out);
     }
