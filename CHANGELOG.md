@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.7.0 - 2024-09-20
+
+* Added new funtionality - getReceipt
+
 ## 1.6.4 - 2024-04-24
 
 * Added Customs fields to NewShipment helper

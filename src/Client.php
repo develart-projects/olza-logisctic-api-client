@@ -55,6 +55,12 @@ class Client
      * @var string
      */
     protected $method_get_shipments_details = 'getShipmentsDetails';
+    
+    /**
+     *
+     * @var string
+     */
+    protected $method_get_receipt = 'getReceipt';
 
     /**
      *
@@ -158,6 +164,24 @@ class Client
         $processed = ProcessedList::fromApiData($response);
 
         return ApiBatchResponse::create($processed, $errors);
+    }
+    
+    /**
+     * Get receipt (confirmation document) batch for given shipments
+     * @param ApiBatchRequest $list
+     * @return ApiBatchResponse
+     */
+    public function getReceipt(ApiBatchRequest $list) {
+
+        $response = $this->processResponse(
+                        $this->transport->executePost($this->method_get_receipt, $list->getBody() ) 
+        );
+
+        $errors = ErrorList::fromApiData($response);
+        $processed = ProcessedList::fromApiData($response);
+        $dataStreams = DataStream::fromApiData($response);
+
+        return ApiBatchResponse::create($processed, $errors, $dataStreams);
     }
 
     /**
