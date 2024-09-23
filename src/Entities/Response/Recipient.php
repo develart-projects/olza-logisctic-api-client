@@ -335,10 +335,10 @@ class Recipient
     }
        
     /**
-     * Load data to output Shipment entity 
+     * Load data to output Recipient entity 
      * 
      * @param array $data
-     * @return Shipment
+     * @return Recipient
      */
     public static function fromApiData($data) {
         

@@ -102,7 +102,7 @@ class Service
     /**
      * Load data to output entity
      * @param array $data
-     * @return Parcel
+     * @return Service
      */
     public static function fromApiData($data) {
         
