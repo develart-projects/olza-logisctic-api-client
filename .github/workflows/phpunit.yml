@@ -32,6 +32,11 @@ jobs:
       # https://github.com/marketplace/actions/checkout
       - name: "Checkout repository…"
         uses: actions/checkout@v3
+        
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.1"
 
       - name: Install dependencies
         uses: php-actions/composer@v6
