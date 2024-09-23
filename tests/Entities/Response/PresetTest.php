@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 use OlzaApiClient\Entities\Response\Preset;
 use PHPUnit\Framework\TestCase;

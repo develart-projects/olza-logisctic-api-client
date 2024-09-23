@@ -28,6 +28,6 @@
         "phpunit/phpunit": "7.5.20"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --testdox tests"
+        "test": "vendor/bin/phpunit --verbose --testdox tests"
     }
 }
