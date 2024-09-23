@@ -20,13 +20,15 @@ final class CodTest extends TestCase
         $instance = new Cod();
         
         $instance->setCodAmount(11.51);
-        $instance->setCodReference('test reference');
-        $instance->setCodCurrency('CZK');
-        $instance->setCodConfirmed();
-        
         $this->assertSame(11.51, $instance->getCodAmount());
+        
+        $instance->setCodReference('test reference');
         $this->assertSame('test reference', $instance->getCodReference());
+        
+        $instance->setCodCurrency('CZK');
         $this->assertSame('CZK', $instance->getCodCurrency());
+        
+        $instance->setCodConfirmed();
         $this->assertSame(true, $instance->isCodConfirmed());
     }
     

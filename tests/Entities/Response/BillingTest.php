@@ -19,11 +19,12 @@ final class BillingTest extends TestCase
         $instance = new Billing();
         
         $instance->setNetPrice(11.51);
-        $instance->setVatRate(12);
-        $instance->setCurrency('CZK');
-        
         $this->assertSame(11.51, $instance->getNetPrice());
+        
+        $instance->setVatRate(12);
         $this->assertSame(12, $instance->getVatRate());
+        
+        $instance->setCurrency('CZK');
         $this->assertSame('CZK', $instance->getCurrency());
     }
     
