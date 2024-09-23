@@ -31,7 +31,7 @@ final class BillingTest extends TestCase
     {
         $instance = Billing::fromApiData([
             'netPrice' => 11.51,
-            'vatRate' => '12',
+            'vatRate' => 12,
             'currency' => 'CZK',
         ]);
         
