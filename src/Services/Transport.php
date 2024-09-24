@@ -75,7 +75,7 @@ class Transport
                 throw new \RuntimeException('RequestFactory not found. See library docs for assistance.');
             }
             
-            if($requestFactory === NULL) {
+            if($streamFactory === NULL) {
                 throw new \RuntimeException('StreamFactory not found. See library docs for assistance.');
             }
             
