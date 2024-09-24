@@ -6,7 +6,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "OlzaApiClient\\": "src/"
+            "OlzaApiClient\\": "src/",
+            "Test\\": "tests/"
         }
     },
     "authors": [
