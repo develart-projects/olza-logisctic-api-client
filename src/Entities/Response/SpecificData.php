@@ -69,7 +69,7 @@ class SpecificData
     /**
      * Load data to output
      * @param array $data
-     * @return Billing
+     * @return SpecificData
      */
     public static function fromApiData($data) {
         

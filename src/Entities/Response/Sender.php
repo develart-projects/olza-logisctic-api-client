@@ -262,10 +262,10 @@ class Sender
 
         
     /**
-     * Load data to output Shipment entity 
+     * Load data to output Sender entity 
      * 
      * @param array $data
-     * @return Shipment
+     * @return Sender
      */
     public static function fromApiData($data) {
         

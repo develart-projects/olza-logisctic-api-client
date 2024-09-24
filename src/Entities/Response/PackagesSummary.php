@@ -86,7 +86,7 @@ class PackagesSummary
     /**
      * Load data to output
      * @param array $data
-     * @return Billing
+     * @return PackagesSummary
      */
     public static function fromApiData($data) {
         

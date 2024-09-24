@@ -116,7 +116,7 @@ class Cod
     /**
      * Load data to output Billing data entity
      * @param array $data
-     * @return Billing
+     * @return Cod
      */
     public static function fromApiData($data) {
         
