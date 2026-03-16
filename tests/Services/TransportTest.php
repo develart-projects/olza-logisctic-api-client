@@ -1,5 +1,6 @@
 <?php
 
+use OlzaApiClient\Exception\ApiClientException;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -7,6 +8,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use OlzaApiClient\Services\Transport;
 use OlzaApiClient\Exception\ApiTransportException;
+use OlzaApiClient\Exception\ResponseException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -104,5 +106,56 @@ class TransportTest extends TestCase
         
         $this->expectException(RuntimeException::class);
         new Transport('https://api.example.com', $this->httpClientMock, $this->requestFactoryMock, null);
+    }
+
+    public function testConstructorThrowsRuntimeExceptionWhenGuzzleNotFound()
+    {
+        $this->expectException(RuntimeException::class);
+        new Transport('https://api.example.com');
+    }
+
+    public function testExecuteGetThrowsApiClientExceptionOnGenericException()
+    {
+        $requestMock = $this->createMock(RequestInterface::class);
+        $requestMock->method('withHeader')->willReturn($requestMock);
+
+        $requestFactoryMock = $this->createMock(RequestFactoryInterface::class);
+        $requestFactoryMock->method('createRequest')->willReturn($requestMock);
+
+        $streamFactoryMock = $this->createMock(StreamFactoryInterface::class);
+
+        $httpClientMock = $this->createMock(ClientInterface::class);
+        $httpClientMock->method('sendRequest')->willThrowException(new \RuntimeException('Network error'));
+
+        $transport = new Transport('https://api.example.com', $httpClientMock, $requestFactoryMock, $streamFactoryMock);
+
+        $this->expectException(ApiClientException::class);
+        $transport->executeGet('/test-api');
+    }
+
+    public function testExecuteGetThrowsResponseExceptionOnStreamReadFailure()
+    {
+        $streamMock = $this->createMock(StreamInterface::class);
+        $streamMock->method('getContents')->willThrowException(new \RuntimeException('Stream error'));
+
+        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock->method('getStatusCode')->willReturn(200);
+        $responseMock->method('getBody')->willReturn($streamMock);
+
+        $requestMock = $this->createMock(RequestInterface::class);
+        $requestMock->method('withHeader')->willReturn($requestMock);
+
+        $requestFactoryMock = $this->createMock(RequestFactoryInterface::class);
+        $requestFactoryMock->method('createRequest')->willReturn($requestMock);
+
+        $streamFactoryMock = $this->createMock(StreamFactoryInterface::class);
+
+        $httpClientMock = $this->createMock(ClientInterface::class);
+        $httpClientMock->method('sendRequest')->willReturn($responseMock);
+
+        $transport = new Transport('https://api.example.com', $httpClientMock, $requestFactoryMock, $streamFactoryMock);
+
+        $this->expectException(ResponseException::class);
+        $transport->executeGet('/test-api');
     }
 }

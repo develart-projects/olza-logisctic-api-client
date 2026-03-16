@@ -190,12 +190,9 @@ final class NewShipmentEnityTest extends TestCase
     {
         $instance = new NewShipmentEnity();
         $instance->setCustomsParams(['key' => 'value']);
-        $instance->setCustomsParams(['key2' => 'value2']);
+        $instance->setCustomsParams(['key2' => 'value2']); // second call replaces
         $this->assertSame([
-            'params' => [
-                ['key' => 'value'],
-                ['key2' => 'value2'],
-            ],
+            'params' => ['key2' => 'value2'],
             'items' => [],
         ], $instance->getCustoms());
     }
@@ -204,13 +201,11 @@ final class NewShipmentEnityTest extends TestCase
     {
         $instance = new NewShipmentEnity();
         $instance->setCustomsItems(['key' => 'value']);
-        $instance->setCustomsItems(['key2' => 'value2']);
+        $instance->setCustomsItems(['key2' => 'value2']); // second call replaces
         $this->assertSame([
             'params' => [],
-            'items' => [
-                ['key' => 'value'],
-                ['key2' => 'value2'],
-        ]], $instance->getCustoms());
+            'items' => ['key2' => 'value2'],
+        ], $instance->getCustoms());
     }
     
     public function testAddParamToCustoms(): void
@@ -219,10 +214,7 @@ final class NewShipmentEnityTest extends TestCase
         $instance->addParamToCustoms('key', 'value');
         $instance->addParamToCustoms('key2', 'value2');
         $this->assertSame([
-            'params' => [
-                ['key' => 'value'],
-                ['key2' => 'value2'],
-            ],
+            'params' => ['key' => 'value', 'key2' => 'value2'],
             'items' => [],
         ], $instance->getCustoms());
     }

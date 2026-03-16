@@ -136,4 +136,14 @@ final class RecipientTest extends TestCase
         $instance->setRecipientZipcode('12345');
         $this->assertTrue($instance->hasRecipientZipcode());
     }
+
+    public function testRecipientFullname(): void
+    {
+        $instance = new Recipient();
+        $instance->setRecipientFirstname('Firstname');
+        $instance->setRecipientSurname('Surname');
+
+        $this->assertSame('Firstname Surname', $instance->getRecipientFullname());
+        $this->assertSame('Surname Firstname', $instance->getRecipientFullnameReversed());
+    }
 }

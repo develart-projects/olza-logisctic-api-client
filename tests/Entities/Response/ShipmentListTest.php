@@ -48,4 +48,16 @@ class ShipmentListTest extends TestCase
         $this->assertSame(2, $shipmentList->count());
         $this->assertSame('123', $shipmentList->getFirstShipment()->getApiCustomRef());
     }
+
+    public function testAddShipmentWithShipmentIdKey(): void
+    {
+        $shipment = new Shipment();
+        $shipment->setShipmentId('sid-123'); // no apiCustomRef
+
+        $shipmentList = new ShipmentList();
+        $shipmentList->addShipment($shipment);
+
+        $this->assertSame(1, $shipmentList->count());
+        $this->assertSame(['sid-123' => $shipment], $shipmentList->toArray());
+    }
 }

@@ -87,4 +87,13 @@ final class ParcelTest extends TestCase
         $this->assertSame(null, $instance->getParcelStatusHistory());
         $this->assertSame('status_test', $instance->getParcelStatus());
     }
+
+    public function testHasDeliveryDate(): void
+    {
+        $instance = new Parcel();
+        $this->assertFalse($instance->hasDeliveryDate());
+
+        $instance->setDeliveryDate(new DateTime());
+        $this->assertTrue($instance->hasDeliveryDate());
+    }
 }

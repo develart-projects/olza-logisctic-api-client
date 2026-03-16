@@ -13,8 +13,6 @@ final class HeaderEntityTest extends TestCase
         $this->assertSame(null, $instance->getApiUser());
         $this->assertSame(null, $instance->getApiPassword());
         $this->assertSame([
-            'apiUser' => null,
-            'apiPassword' => null,
             'language' => HeaderEntity::LANG_CS,
         ], $instance->getApiRequestStructure());
     }

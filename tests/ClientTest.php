@@ -100,6 +100,47 @@ class ClientTest extends TestCase
         $this->expectException(ResponseException::class);
         $client->createShipments($this->apiBatchRequestMock);
     }
+
+    public function testResponseExceptionMissingResponseCode()
+    {
+        $transportServiceMock = $this->createMock(TransportInterface::class);
+        $transportServiceMock->method('executePost')->willReturn([
+            'status' => ['responseDescription' => 'OK'],
+            'response' => 'data',
+        ]);
+
+        $client = new Client($transportServiceMock);
+
+        $this->expectException(ResponseException::class);
+        $client->createShipments($this->apiBatchRequestMock);
+    }
+
+    public function testResponseExceptionMissingResponseDescription()
+    {
+        $transportServiceMock = $this->createMock(TransportInterface::class);
+        $transportServiceMock->method('executePost')->willReturn([
+            'status' => ['responseCode' => 0],
+            'response' => 'data',
+        ]);
+
+        $client = new Client($transportServiceMock);
+
+        $this->expectException(ResponseException::class);
+        $client->createShipments($this->apiBatchRequestMock);
+    }
+
+    public function testResponseExceptionMissingPayload()
+    {
+        $transportServiceMock = $this->createMock(TransportInterface::class);
+        $transportServiceMock->method('executePost')->willReturn([
+            'status' => ['responseCode' => 0, 'responseDescription' => 'OK'],
+        ]);
+
+        $client = new Client($transportServiceMock);
+
+        $this->expectException(ResponseException::class);
+        $client->createShipments($this->apiBatchRequestMock);
+    }
     
     public function testValidationException()
     {

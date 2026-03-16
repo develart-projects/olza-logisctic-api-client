@@ -31,6 +31,16 @@ final class CodTest extends TestCase
         $instance->setCodConfirmed();
         $this->assertSame(true, $instance->isCodConfirmed());
     }
+
+    public function testSetCodUnconfirmed(): void
+    {
+        $instance = new Cod();
+        $instance->setCodConfirmed();
+        $this->assertTrue($instance->isCodConfirmed());
+
+        $instance->setCodUnconfirmed();
+        $this->assertFalse($instance->isCodConfirmed());
+    }
     
     public function testLoadFromApiData(): void
     {

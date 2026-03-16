@@ -25,22 +25,28 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-22.04
+    
+    strategy:
+      # do not stop the workflow if a single run failed
+      fail-fast: false
+      matrix:
+        # quotes are needed it is treated as a number and zero at decimal part is gone at runtime
+        php: ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]
 
     steps:
       # https://github.com/marketplace/actions/checkout
       - name: "Checkout repository…"
         uses: actions/checkout@v3
-        
-      - name: Set up PHP
+
+      - name: "Setup PHP ${{ matrix.php }}…"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.4"
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
 
-      - name: Install dependencies
-        uses: php-actions/composer@v6
-        with:
-          php_version: "7.4"
-        
-      - name: "Running PHPUnit…"
+      - name: "Running PHPUnit on PHP ${{ matrix.php }}…"
         shell: bash
-        run: composer test
+        run: |
+          composer install --dev
+          composer test

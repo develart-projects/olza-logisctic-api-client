@@ -46,4 +46,13 @@ final class ServiceTest extends TestCase
         $this->assertSame('ABC', $instance->getValue());
         $this->assertSame(11.51, $instance->getBillingPrice());
     }
+
+    public function testHasValue(): void
+    {
+        $instance = new Service();
+        $this->assertFalse($instance->hasValue());
+
+        $instance->setValue('ABC');
+        $this->assertTrue($instance->hasValue());
+    }
 }

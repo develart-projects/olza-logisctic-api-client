@@ -80,4 +80,13 @@ final class SenderTest extends TestCase
         $this->assertSame('jozef.liska@develart.cz', $instance->getSenderEmail());
         $this->assertSame('456', $instance->getDispatchPlaceId());
     }
+
+    public function testHasSenderCounty(): void
+    {
+        $instance = new Sender();
+        $this->assertFalse($instance->hasSenderCounty());
+
+        $instance->setSenderCounty('County');
+        $this->assertTrue($instance->hasSenderCounty());
+    }
 }

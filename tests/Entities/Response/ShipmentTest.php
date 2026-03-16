@@ -4,11 +4,11 @@ use OlzaApiClient\Entities\Response\Billing;
 use OlzaApiClient\Entities\Response\Cod;
 use OlzaApiClient\Entities\Response\InfoList;
 use OlzaApiClient\Entities\Response\PackagesSummary;
+use OlzaApiClient\Entities\Response\Parcel;
 use OlzaApiClient\Entities\Response\ParcelList;
 use OlzaApiClient\Entities\Response\Preset;
 use OlzaApiClient\Entities\Response\Recipient;
 use OlzaApiClient\Entities\Response\Sender;
-use OlzaApiClient\Entities\Response\Service;
 use OlzaApiClient\Entities\Response\ServiceList;
 use OlzaApiClient\Entities\Response\Shipment;
 use OlzaApiClient\Entities\Response\SpecificData;
@@ -137,5 +137,55 @@ final class ShipmentTest extends TestCase
         $this->assertInstanceOf(SpecificData::class, $instance->getSpecific());
         $this->assertInstanceOf(PackagesSummary::class, $instance->getPackagesSummary());
         $this->assertInstanceOf(InfoList::class, $instance->getInfoMessages());
+    }
+
+    public function testLoadFromApiDataWithFullData(): void
+    {
+        $instance = Shipment::fromApiData([
+            'apiCustomRef' => 'ref-001',
+            'shipmentId' => 'shp-001',
+            'shipmentStatus' => 'delivered',
+            'packageIds' => ['pkg-001', 'pkg-002'],
+            'exchangePackageIds' => ['exch-001'],
+            'packageList' => [['packageId' => 'list-001', 'packageType' => Parcel::PARCEL_TYPE_NORMAL]],
+            'billingData' => ['netPrice' => 10.0, 'vatRate' => 21, 'currency' => 'CZK'],
+            'sender' => ['senderName' => 'Test Sender'],
+            'recipient' => ['recipientFirstname' => 'John'],
+            'services' => [['code' => 'SVC1', 'value' => '1']],
+            'preset' => ['senderCountry' => 'CZ', 'recipientCountry' => 'SK', 'speditionCode' => 'SP1', 'shipmentType' => 'normal'],
+            'cod' => ['codAmount' => 100.0, 'codReference' => 'REF-001'],
+            'specific' => ['marketPlaceId' => 'MP001'],
+            'packages' => ['packageCount' => 2, 'weight' => 1.5],
+            'infoMessages' => [1 => 'Delivery to island'],
+        ]);
+
+        $this->assertSame('ref-001', $instance->getApiCustomRef());
+        $this->assertInstanceOf(Billing::class, $instance->getBillingData());
+        $this->assertInstanceOf(Sender::class, $instance->getSender());
+        $this->assertInstanceOf(Recipient::class, $instance->getRecipient());
+        $this->assertInstanceOf(Preset::class, $instance->getPreset());
+        $this->assertInstanceOf(Cod::class, $instance->getCod());
+        $this->assertInstanceOf(SpecificData::class, $instance->getSpecific());
+        $this->assertInstanceOf(PackagesSummary::class, $instance->getPackagesSummary());
+        $this->assertInstanceOf(InfoList::class, $instance->getInfoMessages());
+        $this->assertSame(1, $instance->getParcels()->count()); // packageList overrides packageIds
+    }
+
+    public function testHasApiCustomRef(): void
+    {
+        $instance = new Shipment();
+        $this->assertFalse($instance->hasApiCustomRef());
+
+        $instance->setApiCustomRef('ref-123');
+        $this->assertTrue($instance->hasApiCustomRef());
+    }
+
+    public function testAddParcel(): void
+    {
+        $instance = new Shipment();
+        $parcel = new Parcel('parcel-id', Parcel::PARCEL_TYPE_NORMAL);
+
+        $instance->addParcel($parcel);
+        $this->assertSame(1, $instance->getParcels()->count());
     }
 }

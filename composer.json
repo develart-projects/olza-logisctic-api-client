@@ -26,13 +26,17 @@
         "guzzlehttp/guzzle": "Provides http package to the client automaticaly."
     },
     "require-dev": {
-        "phpunit/phpunit": "9.5"
+        "phpunit/phpunit": "^9.6"
     },
     "scripts": {
         "test": "vendor/bin/phpunit --verbose --testdox -c phpunit.xml.dist",
         "test-coverage": [
             "@putenv XDEBUG_MODE=coverage",
             "vendor/bin/phpunit --coverage-text -c phpunit.xml.dist"
+        ],
+        "test-coverage-html": [
+            "@putenv XDEBUG_MODE=coverage",
+            "vendor/bin/phpunit --coverage-html coverage -c phpunit.xml.dist"
         ]
     }
 }

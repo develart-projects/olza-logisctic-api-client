@@ -35,4 +35,10 @@ abstract class ApiExceptionTest extends TestCase
         $this->assertSame('test description', $instance->getMessage());
         $this->assertSame('custom ref', $instance->getReferenceId());
     }
+
+    public function testToString(): void
+    {
+        $instance = new $this->class('test message');
+        $this->assertSame('test message', (string) $instance);
+    }
 }
