@@ -1,6 +1,8 @@
 OlzaLogistic API PHP Client
 =============================
 
+[![Unit Tests](https://github.com/develart-projects/olza-logisctic-api-client/actions/workflows/phpunit.yml/badge.svg)](https://github.com/develart-projects/olza-logisctic-api-client/actions/workflows/phpunit.yml)
+
 Olza Logistic PHP API client is a useful PHP helper for developers who want to integrate basic API actions into their e-shop/application.
  It covers most of the needed possibilities, but programmers are free to use the API directly, if they need a special functionality that is not provided by the client.
 
