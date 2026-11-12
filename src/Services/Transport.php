@@ -106,6 +106,7 @@ class Transport
             throw new \RuntimeException('Guzzle HTTP client not found. See library docs for assistance.');
         }
         
+        // @codeCoverageIgnoreStart
         $guzzleOptions = [
             'http_errors' => false,
             ];
@@ -117,6 +118,7 @@ class Transport
         
         $this->requestFactory = new $psr17factoryClass;
         $this->streamFactory = new $psr17factoryClass;
+        // @codeCoverageIgnoreEnd
 
     }
     

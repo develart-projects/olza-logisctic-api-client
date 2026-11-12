@@ -88,6 +88,21 @@ final class ParcelTest extends TestCase
         $this->assertSame('status_test', $instance->getParcelStatus());
     }
 
+    public function testLoadFromApiDataWithStatusHistory(): void
+    {
+        $instance = Parcel::fromApiData([
+            'packageStatusHistory' => [
+                ['login' => 'login1', 'packageStatus' => 'delivering'],
+                ['login' => 'login2', 'packageStatus' => 'delivered'],
+            ],
+        ]);
+        
+        $this->assertInstanceOf(ParcelStatusLogList::class, $instance->getParcelStatusHistory());
+        $this->assertCount(2, $instance->getParcelStatusHistory()->toArray());
+        $this->assertSame('delivering', $instance->getParcelStatusHistory()->toArray()[0]->getParcelStatus());
+        $this->assertSame('delivered', $instance->getParcelStatusHistory()->toArray()[1]->getParcelStatus());
+    }
+
     public function testHasDeliveryDate(): void
     {
         $instance = new Parcel();
